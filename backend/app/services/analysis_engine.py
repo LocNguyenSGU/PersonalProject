@@ -51,6 +51,7 @@ class AnalysisEngine:
                 segment=segment_data['segment'],
                 confidence=segment_data.get('confidence', 0.5),
                 reasoning=segment_data.get('reasoning', ''),
+                xai_explanation=segment_data.get('xai_explanation', {}),
                 event_summary=self._aggregate_events([]),
                 expires_at=datetime.utcnow() + timedelta(hours=24)
             )
@@ -93,7 +94,8 @@ class AnalysisEngine:
                 priority_sections=rules_data.get('priority_sections', []),
                 featured_projects=rules_data.get('featured_projects', []),
                 highlight_skills=rules_data.get('highlight_skills', []),
-                reasoning=rules_data.get('reasoning', '')
+                reasoning=rules_data.get('reasoning', ''),
+                xai_explanation=rules_data.get('xai_explanation', {})
             )
             
             self.db.add(rules)

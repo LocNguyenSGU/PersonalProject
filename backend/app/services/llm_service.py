@@ -119,18 +119,34 @@ class LLMService:
         raise LLMError(f"All LLM providers failed. Last error: {str(last_error)}")
     
     async def segment_user(self, events: Dict[str, Any]) -> Dict[str, Any]:
-        """Classify user segment based on events"""
-        prompt = """Analyze these user behavior events and classify the visitor into ONE segment:
+        """Classify user segment based on events with xAI explanations"""
+        prompt = """Analyze these user behavior events and classify the visitor into ONE segment.
 
 SEGMENTS:
-1. ML_ENGINEER: Heavy AI/ML project focus
-2. FULLSTACK_DEV: Balanced frontend/backend interest
-3. RECRUITER: Quick scan, contact-focused
-4. STUDENT: Exploratory, long session time
-5. CASUAL: Brief visit, no clear pattern
+1. ML_ENGINEER: Heavy AI/ML project focus, deep technical engagement
+2. FULLSTACK_DEV: Balanced frontend/backend interest, holistic view
+3. RECRUITER: Quick scan, contact-focused, evaluation mode
+4. STUDENT: Exploratory, long session time, learning intent
+5. CASUAL: Brief visit, no clear pattern, browsing mode
 
-Respond ONLY with JSON (no markdown):
-{"segment": "SEGMENT_NAME", "confidence": 0.0-1.0, "reasoning": "brief explanation"}"""
+Provide xAI-style explanation:
+- WHAT: What did the user do? (key events, patterns)
+- WHY: Why does this indicate the segment? (causal reasoning)
+- SO WHAT: What does this mean for their intent? (business impact)
+- RECOMMENDATION: How should we personalize? (actionable insight)
+
+Respond ONLY with JSON (no markdown, no code fences):
+{
+  "segment": "SEGMENT_NAME",
+  "confidence": 0.0-1.0,
+  "reasoning": "Brief summary",
+  "xai_explanation": {
+    "what": "User clicked 3 AI projects, hovered on Python/TensorFlow skills for 15s total",
+    "why": "Heavy ML engagement indicates technical depth and domain expertise",
+    "so_what": "This is a potential technical hire or peer looking for ML capabilities",
+    "recommendation": "Prioritize AI/ML projects, emphasize technical depth and model architecture"
+  }
+}"""
         
         try:
             result_str = await self.generate_with_fallback(prompt, events)
@@ -146,15 +162,46 @@ Respond ONLY with JSON (no markdown):
             return result
         except Exception as e:
             logger.error(f"Segmentation failed: {e}")
-            # Return default segment on failure
-            return {"segment": "CASUAL", "confidence": 0.5, "reasoning": "Default due to error"}
+            # Return default segment on failure with xAI structure
+            return {
+                "segment": "CASUAL",
+                "confidence": 0.5,
+                "reasoning": "Default due to error",
+                "xai_explanation": {
+                    "what": "Error during analysis",
+                    "why": "LLM provider unavailable or data malformed",
+                    "so_what": "Cannot determine user intent reliably",
+                    "recommendation": "Show default content, no personalization"
+                }
+            }
     
     async def generate_rules(self, events: Dict[str, Any], segment: str) -> Dict[str, Any]:
-        """Generate personalization rules for segment"""
-        prompt = f"""Based on segment {segment} and behavior patterns, generate personalization rules.
+        """Generate personalization rules for segment with xAI explanations"""
+        prompt = f"""Based on segment {segment} and behavior patterns, generate personalization rules that maximize engagement.
 
-Respond ONLY with JSON (no markdown):
-{{"priority_sections": ["section1", "section2"], "featured_projects": ["proj1", "proj2"], "highlight_skills": ["skill1"], "reasoning": "brief explanation"}}"""
+AVAILABLE SECTIONS: projects, skills, experience, about, contact
+AVAILABLE PROJECTS: ai_projects, fullstack_apps, data_science, mobile_apps, cloud_infra
+AVAILABLE SKILLS: python, javascript, react, tensorflow, docker, kubernetes, aws
+
+Provide xAI-style explanation for your rule choices:
+- WHAT: What rules are you creating? (the changes)
+- WHY: Why these rules for this segment? (reasoning)
+- SO WHAT: What impact will this have? (expected outcome)
+- RECOMMENDATION: What else to consider? (future improvements)
+
+Respond ONLY with JSON (no markdown, no code fences):
+{{
+  "priority_sections": ["section1", "section2", "section3"],
+  "featured_projects": ["proj1", "proj2"],
+  "highlight_skills": ["skill1", "skill2", "skill3"],
+  "reasoning": "Brief summary of personalization strategy",
+  "xai_explanation": {{
+    "what": "Prioritizing projects section, featuring AI projects, highlighting ML skills",
+    "why": "ML_ENGINEER segment values technical depth and hands-on ML experience",
+    "so_what": "User will immediately see relevant projects and technical competence, increasing engagement",
+    "recommendation": "Consider adding technical blog section or GitHub integration for this segment"
+  }}
+}}"""
         
         try:
             result_str = await self.generate_with_fallback(prompt, events)
@@ -173,5 +220,11 @@ Respond ONLY with JSON (no markdown):
                 "priority_sections": ["projects", "skills"],
                 "featured_projects": [],
                 "highlight_skills": [],
-                "reasoning": "Default rules due to error"
+                "reasoning": "Default rules due to error",
+                "xai_explanation": {
+                    "what": "Applying default prioritization",
+                    "why": "LLM generation failed, fallback to safe defaults",
+                    "so_what": "No personalization applied, showing standard content",
+                    "recommendation": "Monitor LLM provider health and retry"
+                }
             }

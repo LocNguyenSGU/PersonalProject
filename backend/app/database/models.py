@@ -27,7 +27,8 @@ class UserSegment(Base):
     user_pseudo_id = Column(String, unique=True, nullable=False)
     segment = Column(String, nullable=False)  # ML_ENGINEER, FULLSTACK_DEV, RECRUITER, STUDENT, CASUAL
     confidence = Column(Float, default=0.0)
-    reasoning = Column(Text)  # xAI explanation
+    reasoning = Column(Text)  # Brief summary
+    xai_explanation = Column(JSONB)  # Full xAI explanation (what/why/so_what/recommendation)
     event_summary = Column(JSONB)
     analyzed_at = Column(DateTime, default=datetime.utcnow)
     expires_at = Column(DateTime)
@@ -46,7 +47,8 @@ class PersonalizationRules(Base):
     featured_projects = Column(ARRAY(String))
     highlight_skills = Column(ARRAY(String))
     css_overrides = Column(JSONB)
-    reasoning = Column(Text)
+    reasoning = Column(Text)  # Brief summary
+    xai_explanation = Column(JSONB)  # Full xAI explanation
     created_at = Column(DateTime, default=datetime.utcnow)
     
     __table_args__ = (
