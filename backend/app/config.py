@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str
     DEEPSEEK_API_KEY: str
     ADMIN_SECRET: str
+    ADMIN_USERNAME: str = "admin"
+    ADMIN_PASSWORD: str = "changeme"
     ENVIRONMENT: str = "development"
     LOG_LEVEL: str = "INFO"
     
