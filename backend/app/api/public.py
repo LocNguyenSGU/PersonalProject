@@ -7,6 +7,8 @@ from app.models.segments import UserSegmentResponse
 from app.database import get_db
 from app.database.models import UserSegment, PersonalizationRules, AnalyticsRaw
 from app.utils.logger import logger
+from app.middleware.rate_limit import limiter
+from app.security.validators import ValidatedEvent
 from datetime import datetime
 
 router = APIRouter(prefix="/api", tags=["public"])
@@ -17,18 +19,30 @@ async def health():
     return {"status": "ok"}
 
 @router.post("/events", response_model=EventResponse)
+@limiter.limit("100/minute")
 async def track_event(event: EventPayload, db: AsyncSession = Depends(get_db)):
-    """Fallback custom event tracking endpoint"""
+    """
+    Fallback custom event tracking endpoint
+    Rate limited to 100 requests per minute per IP
+    """
     try:
-        logger.info(f"Event received: {event.event_name} from user {event.user_pseudo_id}")
-        
-        # Save event to analytics_raw
-        raw_event = AnalyticsRaw(
-            ga4_event_id=f"{event.user_pseudo_id}_{event.event_timestamp}_{event.event_name}",
+        # Validate event with security validators
+        validated = ValidatedEvent(
             event_name=event.event_name,
             user_pseudo_id=event.user_pseudo_id,
             event_params=event.event_params,
-            event_timestamp=event.event_timestamp,
+            event_timestamp=event.event_timestamp
+        )
+        
+        logger.info(f"Event received: {validated.event_name} from user {validated.user_pseudo_id}")
+        
+        # Save event to analytics_raw
+        raw_event = AnalyticsRaw(
+            ga4_event_id=f"{validated.user_pseudo_id}_{validated.event_timestamp}_{validated.event_name}",
+            event_name=validated.event_name,
+            user_pseudo_id=validated.user_pseudo_id,
+            event_params=validated.event_params,
+            event_timestamp=validated.event_timestamp,
             created_at=datetime.utcnow()
         )
         

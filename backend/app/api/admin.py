@@ -4,6 +4,7 @@ from datetime import timedelta
 from app.auth.jwt import create_access_token, verify_admin, verify_password
 from app.config import settings
 from app.utils.logger import logger
+from app.middleware.rate_limit import limiter
 
 # Admin routes
 router = APIRouter(prefix="/api/admin", tags=["admin"])
@@ -18,10 +19,12 @@ class LoginResponse(BaseModel):
     expires_in: int = 28800  # 8 hours in seconds
 
 @router.post("/login", response_model=LoginResponse)
+@limiter.limit("5/minute")
 async def login(request: LoginRequest):
     """
     Admin login endpoint
     Returns JWT token for authenticated admin access
+    Rate limited to 5 requests per minute per IP
     
     In production, username/password should be stored in environment variables
     or a secure user management system
