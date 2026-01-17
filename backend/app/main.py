@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.database import init_db
+from app.cache import cache
 from app.services.scheduler import start_scheduler
 from app.utils.logger import logger
 
@@ -10,10 +11,12 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting up...")
     await init_db()
+    await cache.connect()
     start_scheduler()
     yield
     # Shutdown
     logger.info("Shutting down...")
+    await cache.disconnect()
 
 app = FastAPI(
     title="Portfolio AI Personalization API",

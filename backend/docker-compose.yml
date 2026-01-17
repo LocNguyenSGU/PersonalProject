@@ -1,12 +1,99 @@
 version: '3.8'
 
 services:
-  api:
+  postgres:
+    image: postgres:15-alpine
+    container_name: portfolio-postgres
+    environment:
+      POSTGRES_USER: portfolio_user
+      POSTGRES_PASSWORD: portfolio_password
+      POSTGRES_DB: portfolio_db
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portfolio_user -d portfolio_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - portfolio-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: portfolio-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - portfolio-network
+
+  backend:
     build: .
+    container_name: portfolio-backend
+    environment:
+      ENVIRONMENT: development
+      LOG_LEVEL: INFO
+      DATABASE_URL: postgresql://portfolio_user:portfolio_password@postgres:5432/portfolio_db
+      REDIS_URL: redis://redis:6379
+      SUPABASE_URL: ${SUPABASE_URL:-your_supabase_url}
+      SUPABASE_KEY: ${SUPABASE_KEY:-your_supabase_key}
+      GA4_PROPERTY_ID: ${GA4_PROPERTY_ID:-your_ga4_property_id}
+      GA4_CREDENTIALS_JSON: ${GA4_CREDENTIALS_JSON:-./credentials.json}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-your_gemini_key}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-your_deepseek_key}
+      ADMIN_SECRET: ${ADMIN_SECRET:-your_super_secret_jwt_key}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-changeme}
     ports:
       - "8000:8000"
-    environment:
-      - ENVIRONMENT=development
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
       - .:/app
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    networks:
+      - portfolio-network
+
+  adminer:
+    image: adminer:latest
+    container_name: portfolio-adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - portfolio-network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  portfolio-network:
+    driver: bridge

@@ -5,6 +5,7 @@ from app.database.models import UserSegment, PersonalizationRules, AnalyticsRaw
 from app.services.ga4_service import GA4Service
 from app.services.llm_service import LLMService
 from app.utils.logger import logger
+from app.cache import cache
 from datetime import datetime, timedelta
 
 class AnalysisEngine:
@@ -19,6 +20,13 @@ class AnalysisEngine:
         """Classify user into segment based on their events"""
         try:
             logger.info(f"Segmenting user {user_pseudo_id}")
+            
+            # Check cache first
+            cache_key = f"user_segment:{user_pseudo_id}"
+            cached_segment = await cache.get(cache_key)
+            if cached_segment:
+                logger.info(f"Cache hit for user segment {user_pseudo_id}")
+                return cached_segment
             
             # Fetch user's events
             stmt = select(AnalyticsRaw).where(
@@ -58,6 +66,18 @@ class AnalysisEngine:
             
             self.db.add(segment)
             await self.db.commit()
+            
+            # Cache the segment with 24-hour TTL (86400 seconds)
+            await cache.set(cache_key, {
+                "id": segment.id,
+                "user_pseudo_id": segment.user_pseudo_id,
+                "segment": segment.segment,
+                "confidence": segment.confidence,
+                "reasoning": segment.reasoning,
+                "xai_explanation": segment.xai_explanation,
+                "event_summary": segment.event_summary,
+                "expires_at": segment.expires_at.isoformat() if segment.expires_at else None
+            }, ttl=86400)
             
             return segment
         except Exception as e:
