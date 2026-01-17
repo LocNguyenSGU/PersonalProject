@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nguyễn Hữu Lộc - Full-Stack - AI Developer Portfolio</title>
+    <meta name="description" content="Portfolio of Nguyễn Hữu Lộc - Full-Stack Developer specializing in Spring Boot, React, and AI integration">
+    
+    <!-- Google Fonts - Inter for high readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        secondary: '#0EA5E9',
+                        accent: '#F59E0B',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Language toggle active state */
+        #lang-en, #lang-vi {
+            color: #64748b;
+        }
+        #lang-en.active, #lang-vi.active {
+            background: #2563EB;
+            color: white;
+        }
+        .dark #lang-en, .dark #lang-vi {
+            color: #94a3b8;
+        }
+        .dark #lang-en.active, .dark #lang-vi.active {
+            background: #2563EB;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans antialiased transition-colors duration-300">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-4 left-4 right-4 z-50">
+        <div class="max-w-6xl mx-auto bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm px-4 sm:px-6 py-3">
+            <div class="flex items-center justify-between">
+                <a href="#" class="text-lg font-semibold text-slate-900 dark:text-white transition-colors duration-200 hover:text-primary dark:hover:text-primary">
+                    Nguyễn Hữu Lộc
+                </a>
+                
+                <div class="flex items-center gap-4 sm:gap-6">
+                    <a href="#skills" class="hidden sm:inline-block text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors duration-200" data-i18n="nav.skills">Skills</a>
+                    <a href="#career" class="hidden sm:inline-block text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors duration-200" data-i18n="nav.career">Career</a>
+                    <a href="#projects" class="hidden sm:inline-block text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors duration-200" data-i18n="nav.projects">Projects</a>
+                    <a href="#about" class="hidden sm:inline-block text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors duration-200" data-i18n="nav.about">About</a>
+                    
+                    <!-- Language toggle -->
+                    <div class="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
+                        <button id="lang-vi" class="px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 cursor-pointer active" aria-label="Vietnamese">
+                            VI
+                        </button>
+                        <button id="lang-en" class="px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 cursor-pointer" aria-label="English">
+                            EN
+                        </button>
+                    </div>
+                    
+                    <!-- Dark mode toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200 cursor-pointer" aria-label="Toggle dark mode">
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-20 items-center">
+                <!-- Left: Intro with Profile Image -->
+                <div class="flex flex-col items-center lg:items-start">
+                    <!-- Profile Image for Mobile/Tablet -->
+                    <div class="flex justify-center mb-6 lg:hidden">
+                        <div class="relative">
+                            <img src="./assets/image.png" alt="Nguyễn Hữu Lộc" class="w-40 h-40 rounded-full object-cover border-4 border-primary shadow-2xl" />
+                            <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 border-4 border-white dark:border-slate-900 rounded-full"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Intro Text -->
+                    <div class="text-center lg:text-left w-full">
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-4 leading-tight">
+                            <span data-i18n="hero.greeting">Xin chào, tôi là</span><br/>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Nguyễn Hữu Lộc</span>
+                        </h1>
+                        <p class="text-xl sm:text-2xl text-slate-600 dark:text-slate-300 mb-6 font-semibold" data-i18n="hero.title">
+                            Lập trình viên Full-Stack AI
+                        </p>
+                        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed" data-i18n="hero.description">
+                            Đam mê xây dựng các ứng dụng web có khả năng mở rộng với công nghệ hiện đại. Có kinh nghiệm về kiến trúc microservices, tích hợp AI và hệ thống thời gian thực.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                            <a href="#projects" class="inline-flex items-center px-6 py-3 bg-primary hover:bg-blue-700 text-white font-medium rounded-xl transition-all duration-200 cursor-pointer shadow-lg hover:shadow-xl hover:scale-105">
+                                <span data-i18n="hero.viewWork">Xem Dự Án</span>
+                                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </a>
+                            <a href="mailto:nguyenhuuloc.dev@gmail.com" class="inline-flex items-center px-6 py-3 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-white font-medium rounded-xl transition-all duration-200 cursor-pointer border-2 border-slate-200 dark:border-slate-700 hover:border-primary hover:scale-105" data-i18n="hero.contact">
+                                Liên Hệ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right: CV Preview Card with Profile Image -->
+                <div class="relative flex gap-6 items-start">
+                    <!-- Profile Image for Desktop -->
+                    <div class="hidden lg:block flex-shrink-0">
+                        <div class="relative">
+                            <div class="w-48 h-48 rounded-full bg-gradient-to-br from-primary to-secondary p-1 shadow-2xl">
+                                <img src="./assets/image.png" alt="Nguyễn Hữu Lộc" class="w-full h-full rounded-full object-cover bg-white dark:bg-slate-900" />
+                            </div>
+                            <div class="absolute bottom-3 right-3 w-10 h-10 bg-green-500 border-4 border-white dark:border-slate-900 rounded-full flex items-center justify-center">
+                                <span class="w-3 h-3 bg-white rounded-full animate-pulse"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- CV Card -->
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 hover:shadow-2xl transition-shadow duration-300">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-1" data-i18n="hero.resumeTitle">Xem Trước CV</h3>
+                                <p class="text-sm text-slate-500 dark:text-slate-400" data-i18n="hero.lastUpdated">Cập nhật: Tháng 1, 2026</p>
+                            </div>
+                            <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                                <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                    <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                                <span class="text-sm text-slate-700 dark:text-slate-300 font-medium">nguyenhuuloc.dev@gmail.com</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                                <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                    <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                    </svg>
+                                </div>
+                                <span class="text-sm text-slate-700 dark:text-slate-300 font-medium">+84 XXX XXX XXX</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                                <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                    <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <a href="https://github.com/LocNguyenSGU" target="_blank" rel="noopener noreferrer" class="text-sm text-primary hover:text-blue-700 dark:hover:text-blue-400 transition-colors font-medium">github.com/LocNguyenSGU</a>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <button onclick="openCVModal()" class="flex items-center justify-center gap-2 w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary hover:from-blue-700 hover:to-cyan-600 text-white font-semibold rounded-xl transition-all duration-200 cursor-pointer shadow-lg hover:shadow-xl hover:scale-105">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                                <span data-i18n="hero.viewCV">Xem CV</span>
+                            </button>
+                            <a href="./assets/main.pdf" download class="flex items-center justify-center gap-2 w-full px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-xl transition-all duration-200 cursor-pointer shadow-lg hover:shadow-xl hover:scale-105">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <span data-i18n="hero.downloadCV">Tải CV</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4" data-i18n="skills.title">Skills & Expertise</h2>
+                <p class="text-lg text-slate-600 dark:text-slate-400" data-i18n="skills.subtitle">Technologies and tools I work with</p>
+            </div>
+            
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Frontend -->
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow duration-200">
+                    <div class="flex items-center gap-3 mb-4">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Frontend</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-lg">React</span>
+                        <span class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-lg">TypeScript</span>
+                        <span class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-lg">Tailwind CSS</span>
+                        <span class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-lg">HTML5/CSS3</span>
+                        <span class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-lg">JavaScript ES6+</span>
+                    </div>
+                </div>
+                
+                <!-- Backend -->
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow duration-200">
+                    <div class="flex items-center gap-3 mb-4">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Backend</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-medium rounded-lg">Spring Boot</span>
+                        <span class="px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-medium rounded-lg">Django</span>
+                        <span class="px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-medium rounded-lg">Node.js</span>
+                        <span class="px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-medium rounded-lg">RESTful APIs</span>
+                        <span class="px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-medium rounded-lg">WebSocket</span>
+                    </div>
+                </div>
+                
+                <!-- Database -->
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow duration-200">
+                    <div class="flex items-center gap-3 mb-4">
+                        <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Database</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 text-sm font-medium rounded-lg">MySQL</span>
+                        <span class="px-3 py-1.5 bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 text-sm font-medium rounded-lg">PostgreSQL</span>
+                        <span class="px-3 py-1.5 bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 text-sm font-medium rounded-lg">MongoDB</span>
+                        <span class="px-3 py-1.5 bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 text-sm font-medium rounded-lg">Redis</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Technologies -->
+            <div class="mt-6 bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="flex items-center gap-3 mb-4">
+                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                    </svg>
+                    <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Additional Technologies</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 text-sm font-medium rounded-lg">Docker</span>
+                    <span class="px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 text-sm font-medium rounded-lg">Microservices</span>
+                    <span class="px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 text-sm font-medium rounded-lg">AI/ML Integration</span>
+                    <span class="px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 text-sm font-medium rounded-lg">Git/GitHub</span>
+                    <span class="px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 text-sm font-medium rounded-lg">Agile/Scrum</span>
+                </div>
+            </div>
+            
+            <!-- Soft Skills -->
+            <div class="mt-6 bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="flex items-center gap-3 mb-4">
+                    <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Soft Skills</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 text-sm font-medium rounded-lg">Problem Solving</span>
+                    <span class="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 text-sm font-medium rounded-lg">Team Collaboration</span>
+                    <span class="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 text-sm font-medium rounded-lg">Quick Learning</span>
+                    <span class="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 text-sm font-medium rounded-lg">Communication</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Section -->
+    <section id="career" class="py-16 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-2">
+                    <span class="text-slate-900 dark:text-white">Sự nghiệp</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-primary" data-i18n="career.title"> Career</span>
+                </h2>
+                <div class="w-16 h-1 bg-gradient-to-r from-purple-500 to-primary mx-auto mb-4 rounded-full"></div>
+                <p class="text-lg text-slate-600 dark:text-slate-400" data-i18n="career.subtitle">My professional journey and work experience</p>
+            </div>
+            
+            <!-- Career Timeline Container -->
+            <div id="career-container" class="space-y-8">
+                <!-- Career entries will be dynamically rendered here -->
+                <div class="text-center py-12">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-slate-300 border-t-primary"></div>
+                    <p class="mt-4 text-slate-600 dark:text-slate-400">Loading career information...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-800/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4" data-i18n="projects.title">Projects</h2>
+                <p class="text-lg text-slate-600 dark:text-slate-400 mb-6" data-i18n="projects.subtitle">A chronological journey through my development projects</p>
+                
+                <!-- Filter Buttons -->
+                <div class="flex items-center justify-center gap-3 flex-wrap mb-6">
+                    <button id="filter-all" class="px-5 py-2.5 bg-primary text-white rounded-lg font-medium text-sm transition-all duration-200 hover:scale-105 hover:shadow-md cursor-pointer" data-i18n="projects.filterAll">
+                        Tất cả
+                    </button>
+                    <button id="filter-impressive" class="px-5 py-2.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-lg font-medium text-sm transition-all duration-200 hover:scale-105 hover:shadow-md cursor-pointer">
+                        <span class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                            <span data-i18n="projects.filterImpressive">Dự án ấn tượng</span>
+                        </span>
+                    </button>
+                    <span id="project-count" class="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                        Tất cả 18 dự án
+                    </span>
+                </div>
+                
+                <!-- Category Badges -->
+                <div class="flex flex-wrap justify-center gap-3">
+                    <span class="px-3 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-lg">
+                        School Projects
+                    </span>
+                    <span class="px-3 py-1.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 text-sm font-medium rounded-lg">
+                        Thesis
+                    </span>
+                    <span class="px-3 py-1.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-sm font-medium rounded-lg">
+                        Research
+                    </span>
+                    <span class="px-3 py-1.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-sm font-medium rounded-lg">
+                        Hackathon
+                    </span>
+                    <span class="px-3 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-sm font-medium rounded-lg">
+                        Team Projects
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Projects Container - 2 Column Grid -->
+            <div id="projects-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                <!-- Projects will be rendered here by projects.js -->
+                <div class="col-span-2 text-center py-12">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-slate-300 border-t-primary"></div>
+                    <p class="mt-4 text-slate-600 dark:text-slate-400">Loading projects...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-800/50">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">About Me</h2>
+                <p class="text-lg text-slate-600 dark:text-slate-400">Getting to know the developer</p>
+            </div>
+            
+            <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700">
+                <div class="prose prose-slate dark:prose-invert max-w-none">
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                        Tôi là sinh viên năm cuối ngành Khoa học Máy tính tại Đại học Sài Gòn, đam mê xây dựng các ứng dụng web và hệ thống phân tán. Từ những dự án đầu tiên với HTML/CSS đến các hệ thống microservices phức tạp, tôi luôn tìm kiếm cơ hội để học hỏi và áp dụng công nghệ mới.
+                    </p>
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                        Với kinh nghiệm phát triển 18+ dự án, từ backend Spring Boot/Django đến frontend React/TypeScript, tôi đã làm việc với nhiều công nghệ hiện đại như microservices, WebSocket, AI integration, và real-time systems. Tôi đặc biệt quan tâm đến việc xây dựng kiến trúc hệ thống scalable và tích hợp AI vào ứng dụng thực tế.
+                    </p>
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                        Hiện tại, tôi đang thực hiện khóa luận tốt nghiệp về ứng dụng AI trong hệ thống học tăng cường cho STEM education. Tôi mong muốn tìm kiếm cơ hội thực tập/fresher developer để áp dụng kiến thức vào các dự án thực tế và phát triển kỹ năng chuyên môn.
+                    </p>
+                    
+                    <div class="grid sm:grid-cols-2 gap-4 mt-6">
+                        <div class="bg-white dark:bg-slate-700/50 rounded-xl p-4 border border-slate-200 dark:border-slate-600">
+                            <h4 class="font-semibold text-slate-900 dark:text-white mb-2">Education</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Bachelor of Computer Science</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-500">Saigon University • 2021-2025</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-500">GPA: 3.5+/4.0</p>
+                        </div>
+                        <div class="bg-white dark:bg-slate-700/50 rounded-xl p-4 border border-slate-200 dark:border-slate-600">
+                            <h4 class="font-semibold text-slate-900 dark:text-white mb-2">Languages</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Vietnamese (Native)</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">English (Professional Working)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer/Contact -->
+    <footer class="py-12 px-4 sm:px-6 lg:px-8 bg-slate-900 dark:bg-slate-950">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Let's Connect</h2>
+                <p class="text-slate-300 mb-6">Feel free to reach out for opportunities or collaboration!</p>
+                
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <a href="mailto:nguyenhuuloc.dev@gmail.com" class="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-blue-700 text-white font-medium rounded-xl transition-colors duration-200 cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        Email Me
+                    </a>
+                    <a href="https://github.com/LocNguyenSGU" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors duration-200 cursor-pointer">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+                        </svg>
+                        GitHub
+                    </a>
+                    <a href="https://linkedin.com/in/nguyenhuuloc" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors duration-200 cursor-pointer">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+                        </svg>
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 pt-8 text-center">
+                <p class="text-slate-400 text-sm">&copy; 2026 Nguyễn Hữu Lộc. Built with modern web technologies.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- i18n Script (must load first) -->
+    <script src="assets/js/i18n.js"></script>
+    
+    <!-- Projects Script -->
+    <script src="assets/js/projects.js"></script>
+    
+    <!-- Career Script -->
+    <script src="assets/js/career.js"></script>
+    
+    <!-- Dark mode toggle script -->
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        
+        if (currentTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+        
+        themeToggleBtn.addEventListener('click', function() {
+            // Toggle icons
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+            
+            // Toggle dark mode
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    </script>
+
+    <!-- CV Preview Modal -->
+    <div id="cvModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 backdrop-blur-sm">
+        <div class="relative w-full h-full max-w-7xl max-h-screen bg-slate-900 flex flex-col">
+            <!-- Modal Header - Compact -->
+            <div class="flex items-center justify-between px-4 py-3 border-b border-slate-700/50 bg-slate-800/80 backdrop-blur-sm">
+                <h3 class="text-base sm:text-lg font-semibold text-white" data-i18n="hero.cvPreview">Xem Trước CV</h3>
+                <div class="flex items-center gap-2">
+                    <a href="./assets/main.pdf" download class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-lg transition-all duration-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span class="hidden sm:inline" data-i18n="hero.downloadCV">Tải CV</span>
+                    </a>
+                    <button onclick="closeCVModal()" class="p-2 hover:bg-slate-700 rounded-lg transition-colors">
+                        <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- PDF Viewer - Fullscreen -->
+            <div class="flex-1 overflow-hidden bg-slate-800">
+                <iframe 
+                    src="./assets/main.pdf#toolbar=0&navpanes=0&scrollbar=1" 
+                    class="w-full h-full" 
+                    frameborder="0"
+                    title="CV Preview"
+                    style="min-height: 600px;"
+                ></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- CV Modal Script -->
+    <script>
+        function openCVModal() {
+            const modal = document.getElementById('cvModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeCVModal() {
+            const modal = document.getElementById('cvModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeCVModal();
+            }
+        });
+        
+        // Close modal when clicking outside
+        document.getElementById('cvModal')?.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCVModal();
+            }
+        });
+    </script>
+</body>
+</html>
