@@ -144,6 +144,164 @@ async def get_events(hours: int = 24):
         logger.error(f"Failed to fetch events: {e}")
         raise HTTPException(status_code=500, detail="Failed to fetch events")
 
+@router.get("/events/search", dependencies=[Depends(verify_admin)])
+async def search_events(
+    event_name: str = None,
+    user_pseudo_id: str = None,
+    hours: int = 24,
+    limit: int = 100,
+    offset: int = 0,
+    sort_by: str = "created_at",
+    sort_order: str = "desc"
+):
+    """
+    Advanced event search with filtering, pagination, and sorting
+    
+    Query Parameters:
+    - event_name: Filter by specific event name (optional)
+    - user_pseudo_id: Filter by user ID (optional)
+    - hours: Time window in hours (default: 24)
+    - limit: Max results per page (default: 100, max: 1000)
+    - offset: Pagination offset (default: 0)
+    - sort_by: Sort field (created_at, event_name, event_timestamp)
+    - sort_order: asc or desc (default: desc)
+    """
+    try:
+        from sqlalchemy import select, desc, asc
+        from app.database.models import AnalyticsRaw
+        from app.database.db import get_async_session
+        from datetime import datetime, timedelta
+        
+        # Validate inputs
+        if limit > 1000:
+            limit = 1000
+        if sort_order not in ["asc", "desc"]:
+            sort_order = "desc"
+        if sort_by not in ["created_at", "event_name", "event_timestamp"]:
+            sort_by = "created_at"
+        
+        async with get_async_session() as session:
+            # Build query
+            since = datetime.utcnow() - timedelta(hours=hours)
+            stmt = select(AnalyticsRaw).where(AnalyticsRaw.created_at > since)
+            
+            # Apply filters
+            if event_name:
+                stmt = stmt.where(AnalyticsRaw.event_name == event_name)
+            if user_pseudo_id:
+                stmt = stmt.where(AnalyticsRaw.user_pseudo_id == user_pseudo_id)
+            
+            # Apply sorting
+            sort_column = getattr(AnalyticsRaw, sort_by)
+            if sort_order == "desc":
+                stmt = stmt.order_by(desc(sort_column))
+            else:
+                stmt = stmt.order_by(asc(sort_column))
+            
+            # Get total count (before pagination)
+            from sqlalchemy import func
+            count_stmt = select(func.count()).select_from(stmt.subquery())
+            count_result = await session.execute(count_stmt)
+            total_count = count_result.scalar() or 0
+            
+            # Apply pagination
+            stmt = stmt.limit(limit).offset(offset)
+            
+            # Execute query
+            result = await session.execute(stmt)
+            events = result.scalars().all()
+            
+            # Format response
+            events_data = []
+            for event in events:
+                events_data.append({
+                    "id": event.id,
+                    "event_name": event.event_name,
+                    "user_pseudo_id": event.user_pseudo_id,
+                    "event_params": event.event_params,
+                    "event_timestamp": event.event_timestamp,
+                    "created_at": event.created_at.isoformat() if event.created_at else None
+                })
+            
+            return {
+                "events": events_data,
+                "total": total_count,
+                "limit": limit,
+                "offset": offset,
+                "has_more": (offset + len(events_data)) < total_count,
+                "filters": {
+                    "event_name": event_name,
+                    "user_pseudo_id": user_pseudo_id,
+                    "hours": hours
+                },
+                "sort": {
+                    "by": sort_by,
+                    "order": sort_order
+                }
+            }
+            
+    except Exception as e:
+        logger.error(f"Failed to search events: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to search events: {str(e)}")
+
+@router.get("/events/user/{user_pseudo_id}", dependencies=[Depends(verify_admin)])
+async def get_user_events(user_pseudo_id: str, limit: int = 50):
+    """Get all events for a specific user"""
+    try:
+        from sqlalchemy import select
+        from app.database.models import AnalyticsRaw
+        from app.database.db import get_async_session
+        
+        async with get_async_session() as session:
+            stmt = select(AnalyticsRaw).where(
+                AnalyticsRaw.user_pseudo_id == user_pseudo_id
+            ).order_by(AnalyticsRaw.created_at.desc()).limit(limit)
+            
+            result = await session.execute(stmt)
+            events = result.scalars().all()
+            
+            events_data = []
+            for event in events:
+                events_data.append({
+                    "id": event.id,
+                    "event_name": event.event_name,
+                    "event_params": event.event_params,
+                    "event_timestamp": event.event_timestamp,
+                    "created_at": event.created_at.isoformat() if event.created_at else None
+                })
+            
+            return {
+                "user_pseudo_id": user_pseudo_id,
+                "events": events_data,
+                "total": len(events_data)
+            }
+            
+    except Exception as e:
+        logger.error(f"Failed to fetch user events: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch user events")
+
+@router.get("/events/types", dependencies=[Depends(verify_admin)])
+async def get_event_types():
+    """Get list of all event types in database"""
+    try:
+        from sqlalchemy import select, distinct
+        from app.database.models import AnalyticsRaw
+        from app.database.db import get_async_session
+        
+        async with get_async_session() as session:
+            stmt = select(distinct(AnalyticsRaw.event_name)).order_by(AnalyticsRaw.event_name)
+            result = await session.execute(stmt)
+            event_types = [row[0] for row in result.all()]
+            
+            return {
+                "event_types": event_types,
+                "total": len(event_types)
+            }
+            
+    except Exception as e:
+        logger.error(f"Failed to fetch event types: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch event types")
+
 @router.get("/rules", dependencies=[Depends(verify_admin)])
 async def get_rules():
     """Get personalization rules"""
