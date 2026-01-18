@@ -1,4 +1,5 @@
 """Alembic migration environment configuration for async SQLAlchemy"""
+
 import asyncio
 import os
 from logging.config import fileConfig
@@ -25,6 +26,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
+
 
 # Database URL - use async postgresql driver
 def get_sqlalchemy_url() -> str:
@@ -61,10 +63,7 @@ def run_migrations_offline() -> None:
 
 def do_run_migrations(connection: Connection) -> None:
     """Execute migrations using the given SQLAlchemy connection"""
-    context.configure(
-        connection=connection,
-        target_metadata=target_metadata
-    )
+    context.configure(connection=connection, target_metadata=target_metadata)
 
     with context.begin_transaction():
         context.run_migrations()

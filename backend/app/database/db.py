@@ -12,24 +12,26 @@ SQLALCHEMY_DATABASE_URL = (
 )
 
 # Use Supabase connection string if available
-SQLALCHEMY_DATABASE_URL = settings.SUPABASE_URL.replace("postgres://", "postgresql+asyncpg://")
+SQLALCHEMY_DATABASE_URL = settings.SUPABASE_URL.replace(
+    "postgres://", "postgresql+asyncpg://"
+)
 
 engine = create_async_engine(
     SQLALCHEMY_DATABASE_URL,
     echo=(settings.ENVIRONMENT == "development"),
     pool_pre_ping=True,
-    pool_recycle=3600
+    pool_recycle=3600,
 )
 
-async_session = sessionmaker(
-    engine, class_=AsyncSession, expire_on_commit=False
-)
+async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 Base = declarative_base()
+
 
 async def get_db():
     async with async_session() as session:
         yield session
+
 
 async def init_db():
     """Initialize database (create tables)"""

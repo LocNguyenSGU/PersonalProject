@@ -12,6 +12,7 @@ from app.middleware.metrics import MetricsMiddleware
 from app.middleware.rate_limit import limiter, rate_limit_error_handler
 from app.utils.metrics import metrics_registry
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
@@ -24,11 +25,12 @@ async def lifespan(app: FastAPI):
     logger.info("Shutting down...")
     await cache.disconnect()
 
+
 app = FastAPI(
     title="Portfolio AI Personalization API",
     description="AI-powered user behavior tracking and portfolio personalization",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # Add rate limiter to app state
@@ -46,16 +48,22 @@ app.add_middleware(MetricsMiddleware)
 # CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:8080", "https://yourdomain.com"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:8080",
+        "https://yourdomain.com",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+
 # Health check
 @app.get("/health")
 async def health():
     return {"status": "ok", "service": "portfolio-ai-personalization"}
+
 
 # Metrics endpoint
 @app.get("/metrics")
@@ -63,16 +71,19 @@ async def metrics():
     """Prometheus metrics endpoint"""
     return Response(
         content=generate_latest(metrics_registry),
-        media_type="text/plain; version=0.0.4; charset=utf-8"
+        media_type="text/plain; version=0.0.4; charset=utf-8",
     )
+
 
 # Include routes
 from app.api import public, admin
+
 app.include_router(public.router)
 app.include_router(admin.router)
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 logger.info("FastAPI app initialized")

@@ -13,10 +13,12 @@ from datetime import datetime
 
 router = APIRouter(prefix="/api", tags=["public"])
 
+
 @router.get("/health")
 async def health():
     """Health check endpoint"""
     return {"status": "ok"}
+
 
 @router.post("/events", response_model=EventResponse)
 @limiter.limit("100/minute")
@@ -31,11 +33,13 @@ async def track_event(event: EventPayload, db: AsyncSession = Depends(get_db)):
             event_name=event.event_name,
             user_pseudo_id=event.user_pseudo_id,
             event_params=event.event_params,
-            event_timestamp=event.event_timestamp
+            event_timestamp=event.event_timestamp,
         )
-        
-        logger.info(f"Event received: {validated.event_name} from user {validated.user_pseudo_id}")
-        
+
+        logger.info(
+            f"Event received: {validated.event_name} from user {validated.user_pseudo_id}"
+        )
+
         # Save event to analytics_raw
         raw_event = AnalyticsRaw(
             ga4_event_id=f"{validated.user_pseudo_id}_{validated.event_timestamp}_{validated.event_name}",
@@ -43,31 +47,31 @@ async def track_event(event: EventPayload, db: AsyncSession = Depends(get_db)):
             user_pseudo_id=validated.user_pseudo_id,
             event_params=validated.event_params,
             event_timestamp=validated.event_timestamp,
-            created_at=datetime.utcnow()
+            created_at=datetime.utcnow(),
         )
-        
+
         db.add(raw_event)
         await db.commit()
-        
+
         return EventResponse(status="success", message="Event tracked")
     except Exception as e:
         logger.error(f"Failed to track event: {e}")
         raise HTTPException(status_code=500, detail="Failed to track event")
 
+
 @router.get("/personalization", response_model=PersonalizationRulesResponse)
 async def get_personalization(
-    user_id: str = Query(...),
-    db: AsyncSession = Depends(get_db)
+    user_id: str = Query(...), db: AsyncSession = Depends(get_db)
 ):
     """Get personalization rules for user's segment"""
     try:
         logger.info(f"Fetching personalization for user {user_id}")
-        
+
         # Look up user segment
         stmt = select(UserSegment).where(UserSegment.user_pseudo_id == user_id)
         result = await db.execute(stmt)
         user_segment = result.scalar_one_or_none()
-        
+
         if not user_segment:
             logger.warning(f"No segment found for user {user_id}, returning default")
             # Return default rules
@@ -75,32 +79,34 @@ async def get_personalization(
                 user_pseudo_id=user_id,
                 segment="CASUAL",
                 confidence=0.5,
-                reasoning="First visit - no profile yet"
+                reasoning="First visit - no profile yet",
             )
-        
+
         # Get rules for segment
         stmt = select(PersonalizationRules).where(
             PersonalizationRules.segment == user_segment.segment
         )
         result = await db.execute(stmt)
         rules = result.scalar_one_or_none()
-        
+
         if not rules:
-            logger.info(f"No rules found for segment {user_segment.segment}, using defaults")
+            logger.info(
+                f"No rules found for segment {user_segment.segment}, using defaults"
+            )
             return PersonalizationRulesResponse(
                 segment=user_segment.segment,
                 priority_sections=["projects", "skills", "experience"],
                 featured_projects=[],
                 highlight_skills=[],
-                reasoning="Default rules - no custom rules generated yet"
+                reasoning="Default rules - no custom rules generated yet",
             )
-        
+
         return PersonalizationRulesResponse(
             segment=rules.segment,
             priority_sections=rules.priority_sections or [],
             featured_projects=rules.featured_projects or [],
             highlight_skills=rules.highlight_skills or [],
-            reasoning=rules.reasoning or ""
+            reasoning=rules.reasoning or "",
         )
     except Exception as e:
         logger.error(f"Failed to get personalization: {e}")

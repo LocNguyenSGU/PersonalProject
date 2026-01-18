@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings
 import os
 
+
 class Settings(BaseSettings):
     SUPABASE_URL: str = "postgresql://localhost/test"
     SUPABASE_KEY: str = "test_key"
@@ -13,9 +14,10 @@ class Settings(BaseSettings):
     ADMIN_PASSWORD: str = "changeme"
     ENVIRONMENT: str = "development"
     LOG_LEVEL: str = "INFO"
-    
+
     class Config:
         env_file = ".env"
         case_sensitive = True
+
 
 settings = Settings()

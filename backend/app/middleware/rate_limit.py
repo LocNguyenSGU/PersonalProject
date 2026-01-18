@@ -6,7 +6,6 @@ from slowapi.errors import RateLimitExceeded
 from fastapi.responses import JSONResponse
 from app.utils.logger import logger
 
-
 # Create global limiter instance
 limiter = Limiter(key_func=get_remote_address)
 
@@ -20,6 +19,8 @@ def rate_limit_error_handler(request, exc: RateLimitExceeded) -> JSONResponse:
         status_code=429,
         content={
             "detail": "Rate limit exceeded",
-            "retry_after": exc.detail.split("per ")[1] if "per " in exc.detail else "unknown"
-        }
+            "retry_after": (
+                exc.detail.split("per ")[1] if "per " in exc.detail else "unknown"
+            ),
+        },
     )
