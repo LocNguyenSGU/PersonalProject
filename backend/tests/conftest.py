@@ -12,7 +12,7 @@ from sqlalchemy.pool import NullPool
 
 from app.main import app
 from app.database.models import Base
-from app.database.db import get_async_session
+from app.database.db import get_db
 
 # Test database URL (use in-memory SQLite for speed)
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
@@ -63,7 +63,7 @@ async def async_client(async_session) -> AsyncGenerator[AsyncClient, None]:
     async def override_get_db():
         yield async_session
 
-    app.dependency_overrides[get_async_session] = override_get_db
+    app.dependency_overrides[get_db] = override_get_db
 
     async with AsyncClient(app=app, base_url="http://test") as client:
         yield client

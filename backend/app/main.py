@@ -39,8 +39,10 @@ app.state.limiter = limiter
 # Add rate limit exception handler
 app.add_exception_handler(RateLimitExceeded, rate_limit_error_handler)
 
-# Add limiter middleware
-app.add_middleware(limiter.LimitMiddleware)
+# Add limiter middleware (SlowAPI uses SlowAPIMiddleware, not LimitMiddleware)
+from slowapi.middleware import SlowAPIMiddleware
+
+app.add_middleware(SlowAPIMiddleware)
 
 # Add metrics middleware
 app.add_middleware(MetricsMiddleware)

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 from datetime import timedelta
 from app.auth.jwt import create_access_token, verify_admin, verify_password
@@ -23,7 +23,7 @@ class LoginResponse(BaseModel):
 
 @router.post("/login", response_model=LoginResponse)
 @limiter.limit("5/minute")
-async def login(request: LoginRequest):
+async def login(req: Request, request: LoginRequest):
     """
     Admin login endpoint
     Returns JWT token for authenticated admin access

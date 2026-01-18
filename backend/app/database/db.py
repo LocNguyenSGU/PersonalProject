@@ -2,19 +2,22 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import declarative_base, sessionmaker
 from app.config import settings
 from app.utils.logger import logger
+import os
 
-# Construct database URL
-SQLALCHEMY_DATABASE_URL = (
-    f"postgresql+asyncpg://"
-    f"{settings.SUPABASE_URL.split('//')[1].split('@')[0]}:"
-    f"{settings.SUPABASE_KEY}@"
-    f"{settings.SUPABASE_URL.split('://')[1]}/postgres"
-)
-
-# Use Supabase connection string if available
-SQLALCHEMY_DATABASE_URL = settings.SUPABASE_URL.replace(
-    "postgres://", "postgresql+asyncpg://"
-)
+# Use DATABASE_URL from env if available, otherwise construct from SUPABASE_URL
+if settings.DATABASE_URL:
+    # Use provided DATABASE_URL (for testing or custom configs)
+    SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL
+    # Ensure it uses asyncpg driver
+    if SQLALCHEMY_DATABASE_URL.startswith("postgresql://"):
+        SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace(
+            "postgresql://", "postgresql+asyncpg://", 1
+        )
+else:
+    # Construct from SUPABASE_URL (production)
+    SQLALCHEMY_DATABASE_URL = settings.SUPABASE_URL.replace(
+        "postgres://", "postgresql+asyncpg://"
+    )
 
 engine = create_async_engine(
     SQLALCHEMY_DATABASE_URL,

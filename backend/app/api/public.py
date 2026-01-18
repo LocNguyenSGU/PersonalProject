@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query, HTTPException, Depends
+from fastapi import APIRouter, Query, HTTPException, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.models.rules import PersonalizationRulesResponse, PersonalizationRequest
@@ -22,7 +22,9 @@ async def health():
 
 @router.post("/events", response_model=EventResponse)
 @limiter.limit("100/minute")
-async def track_event(event: EventPayload, db: AsyncSession = Depends(get_db)):
+async def track_event(
+    request: Request, event: EventPayload, db: AsyncSession = Depends(get_db)
+):
     """
     Fallback custom event tracking endpoint
     Rate limited to 100 requests per minute per IP

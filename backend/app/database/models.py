@@ -5,11 +5,10 @@ from sqlalchemy import (
     Text,
     Float,
     DateTime,
-    JSONB,
     Index,
     BigInteger,
 )
-from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from datetime import datetime
 from app.database.db import Base
 

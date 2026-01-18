@@ -3,6 +3,7 @@ import os
 
 
 class Settings(BaseSettings):
+    DATABASE_URL: str | None = None  # Allow override via env var
     SUPABASE_URL: str = "postgresql://localhost/test"
     SUPABASE_KEY: str = "test_key"
     GA4_PROPERTY_ID: str = "123456789"
