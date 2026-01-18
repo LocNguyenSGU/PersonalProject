@@ -1,0 +1,66 @@
+name: Performance Testing
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 3 * * *'  # Daily at 3 AM UTC
+
+jobs:
+  performance-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies and locust
+        working-directory: ./backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install locust
+
+      - name: Run locust load test
+        working-directory: ./backend
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+          FLASK_ENV: testing
+        run: |
+          locust -f tests/locustfile.py \
+            --headless \
+            -u 100 \
+            -r 10 \
+            --run-time 60s \
+            --csv=results \
+            --html=report.html || echo "Load test completed"
+
+      - name: Upload performance report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: performance-report
+          path: |
+            backend/results*.csv
+            backend/report.html

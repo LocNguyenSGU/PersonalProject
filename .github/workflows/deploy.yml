@@ -1,0 +1,54 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: false
+          tags: |
+            ai-personalization:${{ github.sha }}
+            ai-personalization:latest
+          outputs: type=docker,dest=/tmp/image.tar
+
+      - name: Load Docker image
+        run: |
+          docker load --input /tmp/image.tar
+
+      - name: Docker image built successfully
+        run: |
+          echo "Docker image built with tag: ai-personalization:${{ github.sha }}"
+          echo "Latest tag: ai-personalization:latest"
+
+      - name: Push to registry (placeholder)
+        run: |
+          echo "Pushing to container registry..."
+          echo "In production, configure Docker registry credentials and push image"
+          echo "Example: docker push registry.example.com/ai-personalization:${{ github.sha }}"
+
+      - name: Deploy to production (placeholder)
+        run: |
+          echo "Deploying to production environment..."
+          echo "In production, configure deployment credentials and deploy"
+          echo "Example: kubectl set image deployment/ai-personalization app=registry.example.com/ai-personalization:${{ github.sha }}"
