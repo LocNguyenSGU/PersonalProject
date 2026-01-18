@@ -1,0 +1,82 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: portfolio_db
+    environment:
+      POSTGRES_USER: portfolio
+      POSTGRES_PASSWORD: portfolio_dev_password
+      POSTGRES_DB: portfolio_ai
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portfolio"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: portfolio_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: portfolio_backend
+    environment:
+      SUPABASE_URL: "postgresql://portfolio:portfolio_dev_password@db:5432/portfolio_ai"
+      SUPABASE_KEY: "local_dev_key"
+      GA4_PROPERTY_ID: "123456789"
+      GA4_CREDENTIALS_JSON: "./credentials.json"
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-dummy_key}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-dummy_key}
+      ADMIN_SECRET: "local_dev_secret_key_12345"
+      ADMIN_USERNAME: "admin"
+      ADMIN_PASSWORD: "admin"
+      ENVIRONMENT: "development"
+      REDIS_URL: "redis://redis:6379"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    command: >
+      sh -c "
+        uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+      "
+
+  adminer:
+    image: adminer
+    container_name: portfolio_adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  default:
+    name: portfolio_network
