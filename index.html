@@ -179,7 +179,7 @@
                         </p>
 
                         <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
-                            <a href="#projects"
+                            <a href="#projects" data-contact-type="view_projects"
                                 class="inline-flex items-center px-6 py-3 bg-primary hover:bg-blue-700 text-white font-medium rounded-xl transition-all duration-200 cursor-pointer shadow-lg hover:shadow-xl hover:scale-105">
                                 <span data-i18n="hero.viewWork">Xem Dự Án</span>
                                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -187,7 +187,7 @@
                                         d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                                 </svg>
                             </a>
-                            <a href="mailto:nguyenhuuloc.dev@gmail.com"
+                            <a href="mailto:nguyenhuuloc.dev@gmail.com" data-contact-type="email"
                                 class="inline-flex items-center px-6 py-3 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-white font-medium rounded-xl transition-all duration-200 cursor-pointer border-2 border-slate-200 dark:border-slate-700 hover:border-primary hover:scale-105"
                                 data-i18n="hero.contact">
                                 Liên Hệ
@@ -268,7 +268,7 @@
                                             clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
-                                <a href="https://github.com/LocNguyenSGU" target="_blank" rel="noopener noreferrer"
+                                <a href="https://github.com/LocNguyenSGU" target="_blank" rel="noopener noreferrer" data-link-type="social" data-contact-type="github"
                                     class="text-sm text-primary hover:text-blue-700 dark:hover:text-blue-400 transition-colors font-medium">github.com/LocNguyenSGU</a>
                             </div>
                         </div>
@@ -285,7 +285,7 @@
                                 </svg>
                                 <span data-i18n="hero.viewCV">Xem CV</span>
                             </button>
-                            <a href="./assets/main.pdf" download
+                            <a href="./assets/main.pdf" download data-action="download-resume"
                                 class="flex items-center justify-center gap-2 w-full px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-xl transition-all duration-200 cursor-pointer shadow-lg hover:shadow-xl hover:scale-105">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -324,16 +324,16 @@
                         <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Frontend</h3>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <span
+                        <span data-skill-name="React"
                             class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-lg">React</span>
-                        <span
+                        <span data-skill-name="TypeScript"
                             class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-lg">TypeScript</span>
-                        <span
+                        <span data-skill-name="Tailwind CSS"
                             class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-lg">Tailwind
                             CSS</span>
-                        <span
+                        <span data-skill-name="HTML5/CSS3"
                             class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-lg">HTML5/CSS3</span>
-                        <span
+                        <span data-skill-name="JavaScript"
                             class="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-medium rounded-lg">JavaScript
                             ES6+</span>
                     </div>
@@ -351,17 +351,17 @@
                         <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Backend</h3>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <span
+                        <span data-skill-name="Spring Boot"
                             class="px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-medium rounded-lg">Spring
                             Boot</span>
-                        <span
+                        <span data-skill-name="Django"
                             class="px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-medium rounded-lg">Django</span>
-                        <span
+                        <span data-skill-name="Node.js"
                             class="px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-medium rounded-lg">Node.js</span>
-                        <span
+                        <span data-skill-name="RESTful APIs"
                             class="px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-medium rounded-lg">RESTful
                             APIs</span>
-                        <span
+                        <span data-skill-name="WebSocket"
                             class="px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-sm font-medium rounded-lg">WebSocket</span>
                     </div>
                 </div>
@@ -378,13 +378,13 @@
                         <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Database</h3>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <span
+                        <span data-skill-name="MySQL"
                             class="px-3 py-1.5 bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 text-sm font-medium rounded-lg">MySQL</span>
-                        <span
+                        <span data-skill-name="PostgreSQL"
                             class="px-3 py-1.5 bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 text-sm font-medium rounded-lg">PostgreSQL</span>
-                        <span
+                        <span data-skill-name="MongoDB"
                             class="px-3 py-1.5 bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 text-sm font-medium rounded-lg">MongoDB</span>
-                        <span
+                        <span data-skill-name="Redis"
                             class="px-3 py-1.5 bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 text-sm font-medium rounded-lg">Redis</span>
                     </div>
                 </div>
@@ -402,16 +402,16 @@
                     <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Additional Technologies</h3>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <span
+                    <span data-skill-name="Docker"
                         class="px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 text-sm font-medium rounded-lg">Docker</span>
-                    <span
+                    <span data-skill-name="Microservices"
                         class="px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 text-sm font-medium rounded-lg">Microservices</span>
-                    <span
+                    <span data-skill-name="AI/ML Integration"
                         class="px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 text-sm font-medium rounded-lg">AI/ML
                         Integration</span>
-                    <span
+                    <span data-skill-name="Git/GitHub"
                         class="px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 text-sm font-medium rounded-lg">Git/GitHub</span>
-                    <span
+                    <span data-skill-name="Agile/Scrum"
                         class="px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 text-sm font-medium rounded-lg">Agile/Scrum</span>
                 </div>
             </div>
@@ -428,16 +428,16 @@
                     <h3 class="text-xl font-semibold text-slate-900 dark:text-white">Soft Skills</h3>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <span
+                    <span data-skill-name="Problem Solving"
                         class="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 text-sm font-medium rounded-lg">Problem
                         Solving</span>
-                    <span
+                    <span data-skill-name="Team Collaboration"
                         class="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 text-sm font-medium rounded-lg">Team
                         Collaboration</span>
-                    <span
+                    <span data-skill-name="Quick Learning"
                         class="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 text-sm font-medium rounded-lg">Quick
                         Learning</span>
-                    <span
+                    <span data-skill-name="Communication"
                         class="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 text-sm font-medium rounded-lg">Communication</span>
                 </div>
             </div>
@@ -593,7 +593,7 @@
                 <p class="text-slate-300 mb-6">Feel free to reach out for opportunities or collaboration!</p>
 
                 <div class="flex flex-wrap justify-center gap-4 mb-8">
-                    <a href="mailto:nguyenhuuloc.dev@gmail.com"
+                    <a href="mailto:nguyenhuuloc.dev@gmail.com" data-contact-type="email"
                         class="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-blue-700 text-white font-medium rounded-xl transition-colors duration-200 cursor-pointer">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -602,7 +602,7 @@
                         </svg>
                         Email Me
                     </a>
-                    <a href="https://github.com/LocNguyenSGU" target="_blank" rel="noopener noreferrer"
+                    <a href="https://github.com/LocNguyenSGU" target="_blank" rel="noopener noreferrer" data-contact-type="github" data-link-type="social"
                         class="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors duration-200 cursor-pointer">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -611,7 +611,7 @@
                         </svg>
                         GitHub
                     </a>
-                    <a href="https://linkedin.com/in/nguyenhuuloc" target="_blank" rel="noopener noreferrer"
+                    <a href="https://linkedin.com/in/nguyenhuuloc" target="_blank" rel="noopener noreferrer" data-contact-type="linkedin" data-link-type="social"
                         class="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-xl transition-colors duration-200 cursor-pointer">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path
@@ -678,7 +678,7 @@
                 class="flex items-center justify-between px-4 py-3 border-b border-slate-700/50 bg-slate-800/80 backdrop-blur-sm">
                 <h3 class="text-base sm:text-lg font-semibold text-white" data-i18n="hero.cvPreview">Xem Trước CV</h3>
                 <div class="flex items-center gap-2">
-                    <a href="./assets/main.pdf" download
+                    <a href="./assets/main.pdf" download data-action="download-resume"
                         class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-lg transition-all duration-200">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -785,6 +785,8 @@
             }
         }
     </style>
+    <script src="./assets/js/personalization.js"></script>
+    <script src="./assets/js/analytics.js"></script>
 </body>
 
 </html>

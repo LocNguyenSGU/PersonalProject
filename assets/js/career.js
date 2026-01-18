@@ -74,7 +74,7 @@ function renderCareer() {
         const isCurrentJob = job.endDate === 'Present';
         
         return `
-            <div class="relative group">
+            <div class="relative group" data-career-company="${job.company}" data-career-position="${job.title}">
                 <!-- Timeline connector -->
                 ${index > 0 ? '<div class="absolute left-4 -top-6 w-0.5 h-6 bg-slate-300 dark:bg-slate-600"></div>' : ''}
                 
